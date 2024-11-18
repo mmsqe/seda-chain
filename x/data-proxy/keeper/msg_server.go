@@ -31,6 +31,7 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 }
 
 func (m msgServer) RegisterDataProxy(goCtx context.Context, msg *types.MsgRegisterDataProxy) (*types.MsgRegisterDataProxyResponse, error) {
+	fmt.Println("mm-RegisterDataProxy", msg)
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	if err := msg.Validate(); err != nil {
@@ -51,13 +52,13 @@ func (m msgServer) RegisterDataProxy(goCtx context.Context, msg *types.MsgRegist
 		return nil, errorsmod.Wrapf(err, "invalid hex in signature: %s", msg.Signature)
 	}
 
-	found, err := m.HasDataProxy(ctx, pubKeyBytes)
-	if err != nil {
-		return nil, err
-	}
-	if found {
-		return nil, types.ErrAlreadyExists
-	}
+	// found, err := m.HasDataProxy(ctx, pubKeyBytes)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// if found {
+	// 	return nil, types.ErrAlreadyExists
+	// }
 
 	feeBytes := []byte(msg.Fee.String())
 	payoutAddressBytes := []byte(msg.PayoutAddress)
